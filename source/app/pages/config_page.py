@@ -1,14 +1,31 @@
 import flet as ft
 
-def config_view(page: ft.Page):
-    def go_home(e):
-        page.go("/")
+from .components.menu_component import header   
 
+def config_view(page: ft.Page):
     return ft.View(
-        "/config",
+        "/",
         controls=[
-            ft.Text("О приложении", style="headlineMedium"),
-            ft.Text("Конфиг алгоритма."),
-            ft.ElevatedButton("Назад на главную", on_click=go_home),
-        ]
+            ft.ResponsiveRow(
+                controls=[
+                    ft.Container(
+                        content=header(page),
+                        col={"sm":3},
+                        bgcolor="#F1F1F1",
+                        expand=True
+                    ),
+                    ft.Container(
+                        content=ft.Text(
+                            "Конфиг алгоритма",
+                            text_align=ft.TextAlign.CENTER
+                        ),
+                        col={"sm":9},
+                        expand=True,
+                    )
+                ],
+                spacing=0,
+                expand=True,
+            ),
+        ],
+        padding=0
     )
