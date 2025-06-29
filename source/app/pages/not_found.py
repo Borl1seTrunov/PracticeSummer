@@ -6,6 +6,7 @@ def not_found_view(page: ft.Page):
     """
     Страница 404
     """
+    
     return ft.View(
         "/404",
         controls=[

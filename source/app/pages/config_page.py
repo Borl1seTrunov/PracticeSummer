@@ -6,6 +6,7 @@ def config_view(page: ft.Page):
     """
     Страница конфига приложения
     """
+    
     return ft.View(
         "/config",
         controls=[

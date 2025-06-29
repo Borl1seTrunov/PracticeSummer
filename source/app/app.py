@@ -3,6 +3,10 @@ from app.config import APP_NAME
 from app.routes import routes
 
 class App:
+    """
+    Класс приложения
+    """
+    
     def __init__(self, page: ft.Page):
         self.page = page
         self.page.title = APP_NAME

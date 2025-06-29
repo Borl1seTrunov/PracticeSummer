@@ -4,6 +4,7 @@ def menu(page: ft.Page) -> ft.AppBar:
     """
     Компонент бокового меню
     """
+    
     return ft.Column(
         controls=[
             ft.Container(

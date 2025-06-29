@@ -6,6 +6,7 @@ def page_layer(page: ft.Page, content_page) -> ft.ResponsiveRow:
     Компонент основного слоя страницы приложения
     Справа находится меню размером, слева находится основной контент страницы
     """
+    
     return ft.ResponsiveRow(
         controls=[
             ft.Container(
@@ -20,6 +21,6 @@ def page_layer(page: ft.Page, content_page) -> ft.ResponsiveRow:
                 expand=True,
             )
         ],
-        spacing=0,
+        spacing=10,
         expand=True,
     )
