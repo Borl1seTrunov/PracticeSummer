@@ -1,0 +1,16 @@
+import flet as ft
+
+def text_input(page: ft.Page, label: str, hint: str) -> ft.TextField:
+    return ft.TextField(
+        label=label,
+        label_style=ft.TextStyle(
+            color=ft.colors.WHITE,
+            size=14,
+            weight=ft.FontWeight.NORMAL
+        ),
+        hint_text=hint,
+        border=ft.InputBorder.UNDERLINE,
+        border_color="#FFFFFF",
+        color="#FFFFFF",
+        col={"sm": 12, "md": 6},
+    )

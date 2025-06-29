@@ -1,10 +1,16 @@
 import flet as ft
 
+from .button import button
+
 def work_component(page : ft.Page) -> ft.Container:
     """
     Компонента запуска и отладочной информации алгоритма
     """
-    
+
+    run_algo_button = button(page, "Запустить алгоритм")
+    prev_step_button = button(page, "<-", "#6000FF", {"sm":6})
+    next_step_button = button(page, "->", "#A46DFF", {"sm":6})
+
     return ft.Container(
         content=ft.ResponsiveRow(
             controls=[
@@ -13,36 +19,9 @@ def work_component(page : ft.Page) -> ft.Container:
                         controls=[
                             ft.ResponsiveRow(
                                 controls=[
-                                    ft.Button(
-                                        text="Запустить алгоритм",
-                                        col={"sm":12},
-                                        style=ft.ButtonStyle(
-                                            color="#FFFFFF",
-                                            shape=ft.RoundedRectangleBorder(radius=10)
-                                        ),
-                                        height=78,
-                                        bgcolor="#711BFF"
-                                    ),
-                                    ft.Button(
-                                        text="<-",
-                                        col={"sm":6},
-                                        style=ft.ButtonStyle(
-                                            color="#FFFFFF",
-                                            shape=ft.RoundedRectangleBorder(radius=10)
-                                        ),
-                                        bgcolor="#6000FF",
-                                        height=50
-                                    ),
-                                    ft.Button(
-                                        text="->",
-                                        col={"sm":6},
-                                        style=ft.ButtonStyle(
-                                            color="#FFFFFF",
-                                            shape=ft.RoundedRectangleBorder(radius=10)
-                                        ),
-                                        bgcolor="#A46DFF",
-                                        height=50
-                                    )
+                                    run_algo_button,
+                                    prev_step_button,
+                                    next_step_button,
                                 ],
                             )
                         ],
