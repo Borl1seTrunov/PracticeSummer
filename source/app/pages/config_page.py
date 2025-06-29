@@ -1,31 +1,21 @@
 import flet as ft
 
-from .components.menu_component import header   
+from .components.page_layer import page_layer  
 
 def config_view(page: ft.Page):
+    """
+    Страница конфига приложения
+    """
     return ft.View(
-        "/",
+        "/config",
         controls=[
-            ft.ResponsiveRow(
-                controls=[
-                    ft.Container(
-                        content=header(page),
-                        col={"sm":3},
-                        bgcolor="#F1F1F1",
-                        expand=True
+            page_layer(
+                page=page, 
+                content_page=ft.Text(
+                        "Конфиг алгоритма",
+                        text_align=ft.TextAlign.CENTER
                     ),
-                    ft.Container(
-                        content=ft.Text(
-                            "Конфиг алгоритма",
-                            text_align=ft.TextAlign.CENTER
-                        ),
-                        col={"sm":9},
-                        expand=True,
-                    )
-                ],
-                spacing=0,
-                expand=True,
-            ),
+                )
         ],
         padding=0
     )

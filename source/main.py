@@ -1,7 +1,11 @@
 import flet as ft
 from app.app import App
 
-def main(page: ft.Page):
+"""
+Точка входа в программу
+"""
+
+def main(page: ft.Page) -> None:
     app = App(page)
     app.build()
 

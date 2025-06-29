@@ -1,6 +1,9 @@
 import flet as ft
 
-def header(page: ft.Page) -> ft.AppBar:
+def menu(page: ft.Page) -> ft.AppBar:
+    """
+    Компонент бокового меню
+    """
     return ft.Column(
         controls=[
             ft.Container(
@@ -40,7 +43,7 @@ def header(page: ft.Page) -> ft.AppBar:
                         shadow_color=ft.Colors.TRANSPARENT,
                         surface_tint_color=ft.Colors.TRANSPARENT,
                     ),
-                    on_click=lambda e: page.go("/3")
+                    on_click=lambda e: page.go("/404")
                 ),
                 width=200,
                 alignment=ft.alignment.center,
