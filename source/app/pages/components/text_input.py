@@ -1,6 +1,10 @@
 import flet as ft
 
 def text_input(page: ft.Page, label: str, hint: str) -> ft.TextField:
+    """
+    Компонент кастомного поля ввода
+    """
+    
     return ft.TextField(
         label=label,
         label_style=ft.TextStyle(
