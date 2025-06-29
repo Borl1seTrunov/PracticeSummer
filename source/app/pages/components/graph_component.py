@@ -4,6 +4,7 @@ def graph_component(page: ft.Page, graph : ft.Image, size : int = 4) -> ft.Conta
     """
     Компонент графика
     """
+    
     return ft.Container(
         content=ft.Card(
             content=ft.Container(

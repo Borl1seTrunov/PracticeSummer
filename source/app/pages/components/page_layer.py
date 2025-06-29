@@ -19,6 +19,7 @@ def page_layer(page: ft.Page, content_page) -> ft.ResponsiveRow:
                 content=content_page,
                 col={"sm":9},
                 expand=True,
+                padding=10
             )
         ],
         spacing=10,

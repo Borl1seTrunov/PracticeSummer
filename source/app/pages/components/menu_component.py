@@ -1,6 +1,6 @@
 import flet as ft
 
-def menu(page: ft.Page) -> ft.AppBar:
+def menu(page: ft.Page) -> ft.Column:
     """
     Компонент бокового меню
     """

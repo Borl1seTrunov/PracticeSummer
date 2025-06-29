@@ -17,8 +17,10 @@ def graphs(page : ft.Page, *args) -> ft.Container:
             controls=[graph_component(page, plot, size_graph) for plot in args],
             spacing=10,
         ),
-        padding=20,
         col={"sm": 12},
         bgcolor="#F1F1F1",
-        border_radius=30
+        border_radius=30,
+        expand=2,
+        alignment=ft.alignment.center,
+        padding=10,
     )
