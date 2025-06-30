@@ -7,24 +7,24 @@ class App:
     Класс приложения
     """
     
-    def __init__(self, page: ft.Page):
+    def __init__(self, page: ft.Page) -> None:
         self.page = page
         self.page.title = APP_NAME
         self.page.theme_mode = ft.ThemeMode.DARK
         self.page.on_route_change = self.route_change
         self.page.on_view_pop = self.view_pop
 
-    def build(self):
+    def build(self) -> None:
         self.page.appbar = ft.AppBar(title=ft.Text(APP_NAME))
         self.page.go(self.page.route)
 
-    def route_change(self, e):
+    def route_change(self, e: ft.RouteChangeEvent) -> None:
         self.page.views.clear()
         route = self.page.route
         view_func = routes.get(route, routes["/404"])
         self.page.views.append(view_func(self.page))
         self.page.update()
 
-    def view_pop(self, e):
+    def view_pop(self, e: ft.ViewPopEvent) -> None:
         self.page.views.pop()
         self.page.update()

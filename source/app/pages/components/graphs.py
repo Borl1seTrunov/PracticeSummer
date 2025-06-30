@@ -6,15 +6,25 @@ from .graph_component import graph_component
 def graphs(page : ft.Page, *args) -> ft.Container:
     """
     Компонент главной страницы с графиками
-    в зависимости от количества графиков меняется размер графа на сетке
     """
     
-    size_graph : int = int(12 / len(args)) 
-    size_graph = size_graph if size_graph > 1 else 12
+    graph = None
+    images = []
+    if args and not isinstance(args[0], ft.Image):
+        graph = args[0]
+        images = args[1:]
+    else:
+        images = args
+
+    controls = []
+    if graph is not None:
+        controls.append(graph_component(page, graph, 6 if images else 12))
+    for plot in images:
+        controls.append(graph_component(page, plot, 6 if graph and len(images)==1 else 4))
 
     return ft.Container(
         ft.ResponsiveRow(
-            controls=[graph_component(page, plot, size_graph) for plot in args],
+            controls=controls,
             spacing=10,
         ),
         col={"sm": 12},
