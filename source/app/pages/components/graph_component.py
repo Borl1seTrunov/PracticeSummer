@@ -13,10 +13,14 @@ def render_graph_image(graph_matrix):
     G.add_nodes_from(range(n))
     for i in range(n):
         for j in range(i+1, n):
-            if graph_matrix[i][j]:
-                G.add_edge(i, j)
+            weight = graph_matrix[i][j]
+            if weight:
+                G.add_edge(i, j, weight=weight)
     plt.figure(figsize=(3,2))
-    nx.draw(G, with_labels=True, node_color='skyblue', edge_color='gray')
+    pos = nx.spring_layout(G)
+    nx.draw(G, pos, with_labels=True, node_color='skyblue', edge_color='gray')
+    edge_labels = nx.get_edge_attributes(G, 'weight')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
     buf = io.BytesIO()
     plt.savefig(buf, format='png', bbox_inches='tight')
     plt.close()

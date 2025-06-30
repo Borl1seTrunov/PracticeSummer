@@ -11,8 +11,13 @@ def generate_random_graph(num_vertices: int = 6) -> List[List[int]]:
     for i in range(num_vertices):
         for j in range(i+1, num_vertices):
             edge = random.choice([0, 1])
-            graph[i][j] = edge
-            graph[j][i] = edge
+            if edge:
+                weight = random.randint(1, 10)
+                graph[i][j] = weight
+                graph[j][i] = weight
+            else:
+                graph[i][j] = 0
+                graph[j][i] = 0
     return graph
 
 def home_view(page: ft.Page) -> ft.View:
