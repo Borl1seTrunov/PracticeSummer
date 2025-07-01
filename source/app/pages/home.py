@@ -38,6 +38,15 @@ def home_view(page: ft.Page) -> ft.View:
 
     graph = page.current_graph
 
+    if not hasattr(page, "graphs_container"):
+        page.graphs_container = ft.Container()
+    page.graphs_container.content = graphs(
+        page,
+        graph,
+        getattr(page, 'mst_graph', None),
+        getattr(page, 'mst_weights_history', None)
+    )
+
     return ft.View(
         "/",
         controls=[
@@ -45,12 +54,20 @@ def home_view(page: ft.Page) -> ft.View:
                 page=page, 
                 content_page=ft.Column(
                     controls=[
-                        graphs(page, graph),
-                        work_component(page),
+                        ft.Container(
+                            content=page.graphs_container,
+                            expand=1,
+                            padding=20
+                        ),
+                        ft.Container(
+                            content=work_component(page),
+                            expand=1,
+                            padding=20,
+                            bgcolor=ft.Colors.TRANSPARENT
+                        ),
                     ],
                     expand=True,
-                    spacing=0,
-                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                    alignment=ft.MainAxisAlignment.START,
                 )
             )
         ],

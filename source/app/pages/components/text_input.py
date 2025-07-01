@@ -10,7 +10,7 @@ def text_input(page: ft.Page, label: str, hint: str, *args, **kwargs) -> ft.Text
     return ft.TextField(
         label=label,
         label_style=ft.TextStyle(
-            color=ft.colors.WHITE,
+            color=ft.Colors.WHITE,
             size=14,
             weight=ft.FontWeight.NORMAL
         ),

@@ -11,13 +11,13 @@ def page_layer(page: ft.Page, content_page) -> ft.ResponsiveRow:
         controls=[
             ft.Container(
                 content=menu(page),
-                col={"sm":3},
+                col={"sm":2},
                 bgcolor="#F1F1F1",
                 expand=True
             ),
             ft.Container(
                 content=content_page,
-                col={"sm":9},
+                col={"sm":10},
                 expand=True,
                 padding=10
             )

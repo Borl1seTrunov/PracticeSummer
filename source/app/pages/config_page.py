@@ -6,6 +6,10 @@ from .components.page_layer import page_layer
 from .components.graphs import graphs
 from .components.button import button
 from .components.text_input import text_input
+from app.constants import (
+    DEFAULT_PROB_MUT, DEFAULT_PROB_CROSSOVER, DEFAULT_POPULATION_SIZE,
+    DEFAULT_GENERATION_COUNT, DEFAULT_VERTEX_COUNT, SELECTION_TYPES
+)
 
 def generate_random_graph(num_vertices: int = 6) -> List[List[int]]:
     graph = [[0]*num_vertices for _ in range(num_vertices)]
@@ -22,11 +26,11 @@ def generate_random_graph(num_vertices: int = 6) -> List[List[int]]:
     return graph
 
 def config_view(page: ft.Page) -> ft.View:
-    initial_prob_mut: str = "0.05"
-    initial_prob_crossover: str = "0.8"
-    initial_population_size: str = "50"
-    initial_generation_count: str = "100"
-    initial_vertex_count: str = "6"
+    initial_prob_mut: str = DEFAULT_PROB_MUT
+    initial_prob_crossover: str = DEFAULT_PROB_CROSSOVER
+    initial_population_size: str = DEFAULT_POPULATION_SIZE
+    initial_generation_count: str = DEFAULT_GENERATION_COUNT
+    initial_vertex_count: str = DEFAULT_VERTEX_COUNT
 
     if not hasattr(page, "params"):
         page.params = {
@@ -35,7 +39,7 @@ def config_view(page: ft.Page) -> ft.View:
             "population_size": initial_population_size,
             "generation_count": initial_generation_count,
             "vertex_count": initial_vertex_count,
-            "selection_type": "Рулетка"
+            "selection_type": SELECTION_TYPES[0]
         }
 
     if not hasattr(page, "current_graph"):
@@ -64,6 +68,9 @@ def config_view(page: ft.Page) -> ft.View:
         page.current_graph = generate_random_graph(num_vertices=vertex_count)
         page._graph_img_base64 = None
         page._graph_img_graph_id = None
+        page.views.clear()
+        from app.pages.config_page import config_view
+        page.views.append(config_view(page))
         page.update()
 
     if not hasattr(page, "file_picker"):
@@ -90,6 +97,9 @@ def config_view(page: ft.Page) -> ft.View:
                             page.current_graph = loaded_graph
                             page._graph_img_base64 = None
                             page._graph_img_graph_id = None
+                            page.views.clear()
+                            from app.pages.config_page import config_view
+                            page.views.append(config_view(page))
                             page.update()
                 except Exception as ex:
                     page.snack_bar = ft.SnackBar(ft.Text(f"Ошибка загрузки: {ex}"))
@@ -132,17 +142,13 @@ def config_view(page: ft.Page) -> ft.View:
 
     selection_dropdown = ft.Dropdown(
         label="Тип отбора",
-        label_style=ft.TextStyle(color=ft.colors.WHITE),
-        options=[
-            ft.dropdown.Option("Рулетка"),
-            ft.dropdown.Option("Турнирный"),
-            ft.dropdown.Option("Ранговая"),
-        ],
+        label_style=ft.TextStyle(color=ft.Colors.WHITE),
+        options=[ft.dropdown.Option(t) for t in SELECTION_TYPES],
         value=page.params["selection_type"],
         col={"sm": 12},
         expand=True,
-        border_color=ft.colors.WHITE,
-        text_style=ft.TextStyle(color=ft.colors.WHITE),
+        border_color=ft.Colors.WHITE,
+        text_style=ft.TextStyle(color=ft.Colors.WHITE),
         on_change=on_selection_type_change
     )
 
@@ -159,7 +165,7 @@ def config_view(page: ft.Page) -> ft.View:
                                 text_align=ft.TextAlign.CENTER,
                                 size=20,
                                 weight=ft.FontWeight.BOLD,
-                                color=ft.colors.WHITE
+                                color=ft.Colors.WHITE
                             ),
                             padding=ft.padding.only(bottom=20),
                             alignment=ft.alignment.center,
@@ -188,12 +194,12 @@ def config_view(page: ft.Page) -> ft.View:
                                         content=graphs(
                                             page,
                                             page.current_graph,
+                                            full_width=True
                                         ),
                                         col={"sm": 6, "md": 7},
                                         padding=ft.padding.all(10),
                                         border_radius=10,
-                                        expand=True,
-                                        alignment=ft.alignment.center
+                                        expand=True
                                     )
                                 ],
                                 spacing=10,
@@ -211,7 +217,7 @@ def config_view(page: ft.Page) -> ft.View:
                                         size=18,
                                         weight=ft.FontWeight.BOLD,
                                         text_align=ft.TextAlign.CENTER,
-                                        color=ft.colors.WHITE
+                                        color=ft.Colors.WHITE
                                     ),
                                     ft.ResponsiveRow(
                                         controls=[
