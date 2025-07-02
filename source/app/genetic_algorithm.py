@@ -115,7 +115,6 @@ class GeneticAlgorithmMST:
     def _selection(self, population, fitnesses):
         if self.selection_type == 'Рулетка':
             if len(set(fitnesses)) == 1:
-                # Все одинаковы — выбираем случайно
                 return [random.choice(population) for _ in range(len(population))]
             max_fit = max(fitnesses)
             adj_fitnesses = [max_fit - f + 1e-6 for f in fitnesses]
@@ -144,7 +143,6 @@ class GeneticAlgorithmMST:
             point = random.randint(1, len(parent1) - 2)
             child1 = parent1[:point] + parent2[point:]
             child2 = parent2[:point] + parent1[point:]
-            # Исправляем невалидных детей
             if not self._is_spanning_tree(child1):
                 child1 = self._random_spanning_tree()
             if not self._is_spanning_tree(child2):
@@ -159,7 +157,6 @@ class GeneticAlgorithmMST:
         for i in range(len(mutated)):
             if random.random() < self.mutation_rate:
                 mutated[i] = 1 - mutated[i]
-        # Если после мутации особь невалидна — пересоздать валидную
         if not self._is_spanning_tree(mutated):
             mutated = self._random_spanning_tree()
         return mutated
@@ -178,7 +175,7 @@ class GeneticAlgorithmMST:
             idx_best = fitnesses.index(current_best)
             if current_best < best_fitness:
                 best_fitness = current_best
-                best_individual = population[idx_best][:]  # копия!
+                best_individual = population[idx_best][:]
             best_fitness_history.append(best_fitness)
             best_edges_gen = [edge for edge, bit in zip(self.edges, population[idx_best]) if bit]
             selected = self._selection(population, fitnesses)
