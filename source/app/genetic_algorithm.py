@@ -144,9 +144,9 @@ class GeneticAlgorithmMST:
             child1 = parent1[:point] + parent2[point:]
             child2 = parent2[:point] + parent1[point:]
             if not self._is_spanning_tree(child1):
-                child1 = self._random_spanning_tree()
+               child1 = self._random_spanning_tree()
             if not self._is_spanning_tree(child2):
-                child2 = self._random_spanning_tree()
+               child2 = self._random_spanning_tree()
             return child1, child2
         return parent1, parent2
 
@@ -158,17 +158,19 @@ class GeneticAlgorithmMST:
             if random.random() < self.mutation_rate:
                 mutated[i] = 1 - mutated[i]
         if not self._is_spanning_tree(mutated):
-            mutated = self._random_spanning_tree()
+           mutated = self._random_spanning_tree()
         return mutated
 
 
 
-    def run(self, debug_callback=None):
+    def run(self, debug_callback=None, window=None):
         population = self._initialize_population()
         best_individual = None
         best_fitness = float('inf')
         best_fitness_history = []
         best_individual_snapshot = None
+        no_improve_count = 0
+        last_best = None
         for generation in range(self.generations):
             fitnesses = [self._fitness(ind) for ind in population]
             current_best = min(fitnesses)
@@ -192,5 +194,13 @@ class GeneticAlgorithmMST:
             population = next_generation
             if debug_callback:
                 debug_callback(generation, best_fitness, best_edges_gen, best_fitness_history[:])
+            if window is not None:
+                if last_best is not None and best_fitness == last_best:
+                    no_improve_count += 1
+                else:
+                    no_improve_count = 0
+                last_best = best_fitness
+                if no_improve_count >= int(window):
+                    break
         best_edges = [edge for edge, bit in zip(self.edges, best_individual) if bit]
         return best_edges, best_fitness, best_fitness_history

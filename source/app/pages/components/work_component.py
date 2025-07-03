@@ -90,7 +90,7 @@ def work_component(page : ft.Page) -> ft.Container:
                 page.mst_graphs_by_gen[gen] = mst_matrix
                 page.mst_weights_by_gen[gen] = best
             debug_column.controls.append(
-                ft.Text(f"Поколение {gen}, Лучшая приспособленность: {best}", size=14, color="#000000")
+                ft.Text(f"Поколение {gen}, Лучший вес МОД: {best}", size=14, color="#000000")
             )
             debug_column.update()
             if page.best_mst_weight is None or best < page.best_mst_weight:
@@ -105,7 +105,8 @@ def work_component(page : ft.Page) -> ft.Container:
                 )
                 page.graphs_container.update()
             page.update()
-        best_edges, best_weight, best_fitness_history = ga.run(debug_callback=debug_callback)
+        window = int(page.params.get('window', 10))
+        best_edges, best_weight, best_fitness_history = ga.run(debug_callback=debug_callback, window=window)
         slider.max = len(page.mst_graphs_by_gen) - 1
         slider.divisions = max(1, len(page.mst_graphs_by_gen) - 1)
         slider.value = slider.max
@@ -202,7 +203,7 @@ def work_component(page : ft.Page) -> ft.Container:
             mst_graphs_by_gen.append(mst_matrix)
             mst_weights_by_gen.append(current_best)
         debug_column.controls.append(
-            ft.Text(f"Поколение {generation}, Лучшая приспособленность: {current_best}", size=14, color="#000000")
+            ft.Text(f"Поколение {generation}, Лучшая вес МОД: {current_best}", size=14, color="#000000")
         )
         debug_column.update()
         page.mst_graphs_by_gen = mst_graphs_by_gen
@@ -368,7 +369,8 @@ def work_component(page : ft.Page) -> ft.Container:
                             ),
                         ],
                         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                        expand=True
+                        expand=True,
+                        scroll=ft.ScrollMode.AUTO
                     ),
                     col={"sm":4},
                     expand=True,

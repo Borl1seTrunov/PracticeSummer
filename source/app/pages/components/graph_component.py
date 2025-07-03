@@ -1,9 +1,23 @@
 import flet as ft
 import io
 import base64
+import math
 
 import plotly.graph_objects as go
 import networkx as nx
+
+def grid_layout(n):
+    """
+    Размещает n вершин на квадратной сетке.
+    """
+    side = math.ceil(math.sqrt(n))
+    spacing = 1.0
+    pos = {}
+    for idx in range(n):
+        row = idx // side
+        col = idx % side
+        pos[idx] = (col * spacing, -row * spacing)
+    return pos
 
 def render_graph_image(graph_matrix):
     import matplotlib
@@ -20,7 +34,7 @@ def render_graph_image(graph_matrix):
             if weight:
                 G.add_edge(i, j, weight=weight)
     plt.figure(figsize=(10, 7))
-    pos = nx.spring_layout(G)
+    pos = grid_layout(n)
     nx.draw(G, pos, with_labels=True, node_color='skyblue', edge_color='gray')
     edge_labels = nx.get_edge_attributes(G, 'weight')
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
@@ -167,7 +181,7 @@ def render_mst_graph_image(graph_matrix, mst_matrix=None):
                 if j < len(mst_matrix[i]) and mst_matrix[i][j]:
                     mst_edges.add((i, j))
     plt.figure(figsize=(20, 12))
-    pos = nx.spring_layout(G)
+    pos = grid_layout(n)
     if mst_matrix is not None and len(mst_matrix) == n:
         normal_edges = [e for e in G.edges if e not in mst_edges]
         nx.draw_networkx_edges(G, pos, edgelist=normal_edges, edge_color='gray')

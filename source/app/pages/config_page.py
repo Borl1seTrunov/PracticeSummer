@@ -31,6 +31,7 @@ def config_view(page: ft.Page) -> ft.View:
     initial_population_size: str = DEFAULT_POPULATION_SIZE
     initial_generation_count: str = DEFAULT_GENERATION_COUNT
     initial_vertex_count: str = DEFAULT_VERTEX_COUNT
+    initial_window: str = "30"
 
     if not hasattr(page, "params"):
         page.params = {
@@ -39,7 +40,8 @@ def config_view(page: ft.Page) -> ft.View:
             "population_size": initial_population_size,
             "generation_count": initial_generation_count,
             "vertex_count": initial_vertex_count,
-            "selection_type": SELECTION_TYPES[0]
+            "selection_type": SELECTION_TYPES[0],
+            "window": initial_window
         }
 
     if not hasattr(page, "current_graph"):
@@ -62,6 +64,9 @@ def config_view(page: ft.Page) -> ft.View:
 
     def on_selection_type_change(e: ft.ControlEvent) -> None:
         page.params["selection_type"] = e.control.value
+
+    def on_window_change(e: ft.ControlEvent) -> None:
+        page.params["window"] = e.control.value
 
     def on_random_graph_click(e: ft.ControlEvent) -> None:
         vertex_count = int(page.params.get("vertex_count", initial_vertex_count) or initial_vertex_count)
@@ -139,6 +144,11 @@ def config_view(page: ft.Page) -> ft.View:
         page, "Количество вершин в случайном графе", "Целое число", value=page.params["vertex_count"]
     )
     count_vertext_textinput.on_change = on_vertex_count_change
+
+    window_textinput = text_input(
+        page, "Окно (число поколений для останова)", "Целое число", value=page.params["window"]
+    )
+    window_textinput.on_change = on_window_change
 
     selection_dropdown = ft.Dropdown(
         label="Тип отбора",
@@ -226,6 +236,7 @@ def config_view(page: ft.Page) -> ft.View:
                                             population_size_textinput,
                                             generation_count_textinput,
                                             count_vertext_textinput,
+                                            window_textinput,
                                             selection_dropdown
                                         ],
                                         spacing=20,
